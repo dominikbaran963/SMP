@@ -42,6 +42,59 @@ struct element {
 		cout << endl;
 	}
 };
+int factorial(int n) {
+	if (n == 0)
+		return 0;
+	if (n == 1)
+		return 1;
+	else return n * factorial(n - 1);
+}
+vector<vector<element*>>generatePermutations(vector<element*>set) {
+	int n = set.size();
+	int fac = factorial(n);
+	int temp1, temp2, temp3, it, perIt = 0;
+	int* permutations = new int[n];
+	vector<vector<element*>>setPermutations;
+	vector<element*> tempVector;
+	setPermutations.push_back(set);
+	if (n > 0)
+		perIt++;
+	for (int i = 0; i < n; i++) {
+		permutations[i] = i;
+	}
+	for (int i = 0; i < fac - 1; i++) {
+		it = 0;
+		temp1 = -1;
+		temp2 = -1;
+		for (int j = 0; j < n - 1; j++) {
+			if (permutations[j] < permutations[j + 1])
+				if (j > temp1)
+					temp1 = j;
+		}
+		for (int k = 0; k < n; k++) {
+			if (permutations[temp1] < permutations[k])
+				if (k > temp2)
+					temp2 = k;
+		}
+		perIt++;
+		temp3 = permutations[temp1];
+		permutations[temp1] = permutations[temp2];
+		permutations[temp2] = temp3;
+		temp1++;
+		for (int j = temp1; it < (n - temp1) / 2; j++) {
+			temp3 = permutations[j];
+			permutations[j] = permutations[n - 1 - it];
+			permutations[n - 1 - it] = temp3;
+			it++;
+		}
+		for (int j = 0; j < n; j++)
+			tempVector.push_back(set[permutations[j]]);
+		setPermutations.push_back(tempVector);
+		tempVector.clear();
+	}
+	cout << endl << "Wygenerowano " << perIt << " permutacji" << endl << endl;
+	return setPermutations;
+}
 void getInput(vector<element*>& set1, vector<element*>& set2) {
 	int amount1, amount2, preferenciesSize;
 	char symbol;
@@ -73,6 +126,12 @@ void smp() {
 	vector<element*>set1;
 	vector<element*>set2;
 	getInput(set1, set2);
+	vector < vector<element*> >permutations = generatePermutations(set1);
+	for (int i = 0; i < permutations.size(); i++) {
+		for (int j = 0; j < permutations[i].size(); j++)
+			cout << permutations[i][j]->symbol;
+		cout << endl;
+	}
 }
 
 int main() {
