@@ -16,9 +16,9 @@ struct element {
 		int symbolCharValue, p1, p2, temp;
 		this->symbol = symbol;
 		if (symbol >= 48 && symbol <= 57)
-			symbolCharValue = 48;
+			symbolCharValue = 65;
 		else
-			symbolCharValue = 65; //jak symbol jest litera to bedzie generowal cyfry i na odwrot
+			symbolCharValue = 48; //jak symbol jest litera to bedzie generowal cyfry i na odwrot
 		for (int i = 0; i < amount; i++)
 			preferencies.push_back(i + symbolCharValue); //najpierw generuje po kolei a potem miesza
 		for (int i = 0; i < preferencies.size(); i++) {
@@ -43,18 +43,22 @@ struct element {
 void smp() {
 	vector<element*>set1;
 	vector<element*>set2;
-	int amount;
+	int amount1, amount2;
 	char symbol;
-	cout << "ilosc elementow: ";
-	cin >> amount;
-	for (int i = 0; i < amount; i++) {
-		set1.push_back(new element(static_cast<char>(65 + i), amount));
-		set2.push_back(new element(static_cast<char>(48 + i), amount));
+	cout << "ilosc elementow 1: ";
+	cin >> amount1;
+	cout << "ilosc elementow 2: ";
+	cin >> amount2;
+	for (int i = 0; i < amount1; i++) {
+		set1.push_back(new element(static_cast<char>(65 + i), amount1));
 	}
-	for (int i = 0; i < amount; i++)
+	for (int i = 0; i < amount2; i++) {
+		set2.push_back(new element(static_cast<char>(48 + i), amount2 + 2));
+	}
+	for (int i = 0; i < set1.size(); i++)
 		set1[i]->printPreferencies();
 	cout << endl;
-	for (int i = 0; i < amount; i++)
+	for (int i = 0; i < set2.size(); i++)
 		set2[i]->printPreferencies();
 }
 
